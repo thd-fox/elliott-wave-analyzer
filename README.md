@@ -19,11 +19,11 @@ A heuristic Elliott Wave analysis tool that uses Yahoo Finance data to detect po
 
 ### Setup Instructions
 
-1. **Clone or download the script**
+1. **Clone the repository**
 
    ```bash
-   # If you have the script file, navigate to the directory containing it
-   cd /path/to/elliott-analyzer
+   git clone https://github.com/thd-fox/elliott-wave-analyzer.git
+   cd elliott-wave-analyzer
    ```
 
 2. **Create a virtual environment** (recommended)
