@@ -314,6 +314,7 @@ docker run -d --name elliott-wave -p 8000:8000 \
 ```
 
 Remote Deployment (vereinfacht, ohne Registry):
+
 1. Lokal Image bauen: `docker build -t elliott-wave:latest .`
 2. Exportieren: `docker save elliott-wave:latest | gzip > elliott-wave.tar.gz`
 3. Upload: `scp elliott-wave.tar.gz user@server:/tmp/`
@@ -337,6 +338,7 @@ Remote Deployment (vereinfacht, ohne Registry):
    ```
 
 Optional Umgebungsvariablen:
+
 - `AI_MODE=manual|auto`
 - `OPENAI_API_KEY=sk-...`
 
