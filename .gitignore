@@ -89,3 +89,9 @@ Desktop.ini
 *.jpg
 *.pdf
 plots/
+
+# Shell Deploy Scripts ausschließen
+deploy.sh
+deploy_remote.sh
+deploy_remote_full.sh
+deploy_chat_service.sh

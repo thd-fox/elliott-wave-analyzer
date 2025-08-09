@@ -1,6 +1,8 @@
 # Elliott Wave Analyzer
 
-A heuristic Elliott Wave analysis tool that uses Yahoo Finance data to detect potential Elliott Wave patterns in stock price movements. This educational tool helps identify 5-3 wave patterns and provides Fibonacci analysis without requiring any API keys.
+![Dashboard](dashboard.png)
+
+Ein heuristisches Elliott-Wave Analyse-Tool auf Basis von Yahoo Finance.
 
 ## Features
 
@@ -297,3 +299,45 @@ This is an educational tool. Improvements and suggestions are welcome for:
 ## License
 
 This tool is provided as-is for educational purposes. Use at your own risk.
+
+## Deployment (Docker)
+
+Schnell lokal bauen & starten:
+
+```bash
+docker build -t elliott-wave:latest .
+docker run -d --name elliott-wave -p 8000:8000 \
+  -v $(pwd)/portfolio.csv:/app/portfolio.csv \
+  -v $(pwd)/config.json:/app/config.json \
+  -v $(pwd)/cache.db:/app/cache.db \
+  elliott-wave:latest
+```
+
+Remote Deployment (vereinfacht, ohne Registry):
+1. Lokal Image bauen: `docker build -t elliott-wave:latest .`
+2. Exportieren: `docker save elliott-wave:latest | gzip > elliott-wave.tar.gz`
+3. Upload: `scp elliott-wave.tar.gz user@server:/tmp/`
+4. Server: `gunzip -c /tmp/elliott-wave.tar.gz | docker load`
+5. Persistenz anlegen auf Server (z.B. /opt/elliott-wave/data) und Dateien erstellen:
+   ```bash
+   mkdir -p /opt/elliott-wave/data
+   cd /opt/elliott-wave/data
+   [ -f portfolio.csv ] || echo 'ticker,period,interval,zigzag' > portfolio.csv
+   [ -f config.json ] || echo '{"openai_api_key": null, "ai_mode": "auto"}' > config.json
+   [ -f cache.db ] || touch cache.db
+   chmod 666 portfolio.csv config.json cache.db
+   ```
+6. Container starten:
+   ```bash
+   docker run -d --name elliott-wave -p 8000:8000 \
+     -v /opt/elliott-wave/data/portfolio.csv:/app/portfolio.csv \
+     -v /opt/elliott-wave/data/config.json:/app/config.json \
+     -v /opt/elliott-wave/data/cache.db:/app/cache.db \
+     elliott-wave:latest
+   ```
+
+Optional Umgebungsvariablen:
+- `AI_MODE=manual|auto`
+- `OPENAI_API_KEY=sk-...`
+
+(Automatisches Deployment Skript ist lokal vorhanden, wird aber nicht committet.)
