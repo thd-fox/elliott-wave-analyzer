@@ -8,7 +8,20 @@ A heuristic Elliott Wave analysis tool that uses Yahoo Finance data to detect po
 - **Elliott Wave Labeling**: Attempts to label the last 8 pivot points as a 5-3 Elliott Wave pattern
 - **Fibonacci Analysis**: Calculates common Fibonacci retracement levels
 - **Visual Charts**: Optional plotting with wave labels
+- **Portfolio Analysis**: Analyze multiple stocks from CSV files
 - **No API Keys Required**: Uses Yahoo Finance via yfinance library
+
+## Project Structure
+
+```
+elliott-wave-analyzer/
+├── elliott_wave_analyzer.py    # Main analysis script for single stocks
+├── portfolio_analyzer.py       # Portfolio analysis script
+├── portfolio.csv               # Sample portfolio file
+├── requirements.txt            # Python dependencies
+├── README.md                   # This documentation
+└── .gitignore                  # Git ignore rules
+```
 
 ## Installation
 
@@ -49,16 +62,72 @@ A heuristic Elliott Wave analysis tool that uses Yahoo Finance data to detect po
 
 ## Usage
 
-### Basic Usage
+### Single Stock Analysis
+
+#### Basic Usage
 
 ```bash
 python elliott_wave_analyzer.py --ticker AAPL
 ```
 
-### Advanced Usage
+#### Advanced Usage
 
 ```bash
 python elliott_wave_analyzer.py --ticker AAPL --period 2y --interval 1d --zigzag 5 --plot
+```
+
+### Portfolio Analysis
+
+The portfolio analyzer allows you to analyze multiple stocks at once using a CSV file.
+
+#### Basic Portfolio Analysis
+
+```bash
+python portfolio_analyzer.py --portfolio portfolio.csv
+```
+
+#### Portfolio Analysis with Output File
+
+```bash
+python portfolio_analyzer.py --portfolio portfolio.csv --output results.csv
+```
+
+#### Portfolio CSV Format
+
+Create a CSV file with the following columns:
+
+```csv
+ticker,period,interval,zigzag
+AAPL,2y,1d,5
+GOOGL,2y,1d,5
+TSLA,6mo,1h,3
+MSFT,1y,1d,4
+```
+
+#### Portfolio Analyzer Arguments
+
+| Argument         | Type   | Default         | Description                                   |
+| ---------------- | ------ | --------------- | --------------------------------------------- |
+| `--portfolio`    | string | `portfolio.csv` | CSV file containing stock list and parameters |
+| `--output`       | string | None            | Output CSV file for detailed results          |
+| `--summary-only` | flag   | False           | Show only summary, skip individual details    |
+
+#### Sample Portfolio Analysis Output
+
+```
+PORTFOLIO ANALYSIS SUMMARY
+Total stocks analyzed: 42
+Successful analyses: 42
+Failed analyses: 0
+Elliott 5-3 patterns found: 36
+Success rate: 85.7%
+
+Stocks with Elliott 5-3 patterns:
+  • AAPL: $229.35 (down trend)
+  • GOOGL: $201.42 (down trend)
+  • TSLA: $329.65 (down trend)
+  • MSFT: $522.04 (down trend)
+  ...
 ```
 
 ### Command Line Arguments

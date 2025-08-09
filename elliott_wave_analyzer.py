@@ -43,6 +43,11 @@ def fetch_data(ticker: str, period: str = "2y", interval: str = "1d") -> pd.Data
     df = yf.download(ticker, period=period, interval=interval, progress=False)
     if df.empty:
         raise RuntimeError(f"No data for {ticker}")
+    
+    # Handle multi-level columns if present
+    if isinstance(df.columns, pd.MultiIndex):
+        df.columns = df.columns.droplevel(1)
+    
     return df
 
 
